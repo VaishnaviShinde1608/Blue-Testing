@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Italic Cafe - Premium Coffee Experience</title>
+    <meta name="description" content="Italic Cafe offers premium coffee, artisan pastries, and a warm ambiance. Visit us for the perfect blend of quality and hospitality in the heart of the city.">
+    <meta name="keywords" content="coffee shop, cafe, premium coffee, pastries, artisan, warm ambiance">
+    <meta name="author" content="Italic Cafe">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://italiccafe.com/">
+    <meta property="og:title" content="Italic Cafe - Premium Coffee Experience">
+    <meta property="og:description" content="Experience the perfect blend of premium coffee, artisan pastries, and warm ambiance.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&h=630&fit=crop">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://italiccafe.com/">
+    <meta property="twitter:title" content="Italic Cafe - Premium Coffee Experience">
+    <meta property="twitter:description" content="Experience the perfect blend of premium coffee, artisan pastries, and warm ambiance.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&h=630&fit=crop">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9749;</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9749;</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CafeOrCoffeeShop",
+        "name": "Italic Cafe",
+        "description": "Premium coffee, artisan pastries, and warm ambiance",
+        "url": "https://italiccafe.com",
+        "telephone": "+1-555-123-4567",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "123 Coffee Lane",
+            "addressLocality": "Brew City",
+            "addressRegion": "BC",
+            "postalCode": "12345",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 40.7128,
+            "longitude": -74.0060
+        },
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "07:00",
+                "closes": "21:00"
+            },
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Saturday", "Sunday"],
+                "opens": "08:00",
+                "closes": "22:00"
+            }
+        ],
+        "image": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200",
+        "priceRange": "$$",
+        "servesCuisine": "Coffee, Pastries"
+    }
+    </script>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner" aria-hidden="true">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Skip to Content -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Daily Specials Banner -->
+    <div class="daily-specials-banner" role="banner" aria-label="Daily Special">
+        <div class="container">
+            <i class="fas fa-star" aria-hidden="true"></i>
+            <span><strong>Daily Special:</strong> Buy any pastry, get 50% off your second coffee!</span>
+            <button class="close-banner" aria-label="Close banner">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="#" class="logo" aria-label="Italic Cafe - Home">
+                <i class="fas fa-mug-hot logo-icon" aria-hidden="true"></i>
+                <span class="logo-text">Italic Cafe</span>
+            </a>
+            <ul class="nav-links" role="menubar">
+                <li role="none"><a href="#home" role="menuitem">Home</a></li>
+                <li role="none"><a href="#about" role="menuitem">About</a></li>
+                <li role="none"><a href="#menu" role="menuitem">Menu</a></li>
+                <li role="none"><a href="#gallery" role="menuitem">Gallery</a></li>
+                <li role="none"><a href="#contact" role="menuitem">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <i class="fas fa-moon" aria-hidden="true"></i>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero" aria-labelledby="hero-title">
+            <div class="hero-bg">
+                <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&h=1080&fit=crop" 
+                     alt="Cozy cafe interior with warm lighting" 
+                     loading="eager"
+                     fetchpriority="high">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+                <h1 id="hero-title" class="hero-title">Welcome to <span class="highlight">Italic Cafe</span></h1>
+                <p class="hero-subtitle">Where every cup tells a story</p>
+                <p class="hero-description">Experience the perfect blend of premium coffee, artisan pastries, and warm ambiance in the heart of the city.</p>
+                <div class="hero-buttons">
+                    <a href="#menu" class="btn btn-primary">
+                        <i class="fas fa-utensils" aria-hidden="true"></i> Explore Menu
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i> Visit Us
+                    </a>
+                    <a href="https://order.italiccafe.com" class="btn btn-accent" target="_blank" rel="noopener">
+                        <i class="fas fa-shopping-bag" aria-hidden="true"></i> Order Online
+                    </a>
+                </div>
+            </div>
+            <div class="hero-decoration" aria-hidden="true">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about" aria-labelledby="about-title">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-content" data-aos="fade-right" data-aos-duration="800">
+                        <h2 id="about-title" class="section-title">Our <span class="highlight">Story</span></h2>
+                        <p class="about-text">Founded in 2015, Italic Cafe was born from a passion for exceptional coffee and a desire to create a warm, inviting space where people could connect, create, and unwind.</p>
+                        <p class="about-text">We source our beans from sustainable farms around the world, ensuring every cup is not only delicious but ethically produced. Our skilled baristas craft each drink with precision and care.</p>
+                        <div class="stats" role="list" aria-label="Our statistics">
+                            <div class="stat" role="listitem" data-aos="zoom-in" data-aos-delay="100">
+                                <span class="stat-number">10+</span>
+                                <span class="stat-label">Years Experience</span>
+                            </div>
+                            <div class="stat" role="listitem" data-aos="zoom-in" data-aos-delay="200">
+                                <span class="stat-number">50k+</span>
+                                <span class="stat-label">Happy Customers</span>
+                            </div>
+                            <div class="stat" role="listitem" data-aos="zoom-in" data-aos-delay="300">
+                                <span class="stat-number">20+</span>
+                                <span class="stat-label">Coffee Varieties</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-visual" data-aos="fade-left" data-aos-duration="800">
+                        <div class="visual-card card-1">
+                            <i class="fas fa-cookie-bite card-icon" aria-hidden="true"></i>
+                            <h3>Fresh Pastries</h3>
+                        </div>
+                        <div class="visual-card card-2">
+                            <i class="fas fa-mug-hot card-icon" aria-hidden="true"></i>
+                            <h3>Premium Coffee</h3>
+                        </div>
+                        <div class="visual-card card-3">
+                            <i class="fas fa-heart card-icon" aria-hidden="true"></i>
+                            <h3>Cozy Vibes</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section id="menu" class="menu" aria-labelledby="menu-title">
+            <div class="container">
+                <h2 id="menu-title" class="section-title center">Our <span class="highlight">Menu</span></h2>
+                <p class="section-subtitle">Handcrafted with love, served with passion</p>
+                
+                <!-- Search Bar -->
+                <div class="menu-search" data-aos="fade-up" data-aos-delay="100">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                        <input type="text" id="menu-search" placeholder="Search menu items..." aria-label="Search menu items">
+                        <button class="clear-search" aria-label="Clear search">
+                            <i class="fas fa-times" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="menu-tabs" role="tablist" aria-label="Menu categories">
+                    <button class="menu-tab active" data-category="all" role="tab" aria-selected="true">All</button>
+                    <button class="menu-tab" data-category="coffee" role="tab" aria-selected="false">Coffee</button>
+                    <button class="menu-tab" data-category="tea" role="tab" aria-selected="false">Tea</button>
+                    <button class="menu-tab" data-category="pastry" role="tab" aria-selected="false">Pastries</button>
+                    <button class="menu-tab" data-category="special" role="tab" aria-selected="false">Specials</button>
+                </div>
+
+                <div class="menu-grid" role="tabpanel">
+                    <!-- Coffee Items -->
+                    <div class="menu-item" data-category="coffee" data-aos="fade-up">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=200&h=200&fit=crop" alt="Classic Espresso" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Classic Espresso</h3>
+                            <p>Rich and bold single-origin espresso</p>
+                        </div>
+                        <span class="price">$3.50</span>
+                    </div>
+                    <div class="menu-item" data-category="coffee" data-aos="fade-up" data-aos-delay="50">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=200&h=200&fit=crop" alt="Caramel Latte" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Caramel Latte</h3>
+                            <p>Smooth latte with caramel drizzle</p>
+                        </div>
+                        <span class="price">$5.00</span>
+                    </div>
+                    <div class="menu-item" data-category="coffee" data-aos="fade-up" data-aos-delay="100">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=200&h=200&fit=crop" alt="Mocha Delight" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Mocha Delight</h3>
+                            <p>Chocolate lovers' paradise</p>
+                        </div>
+                        <span class="price">$5.50</span>
+                    </div>
+                    <div class="menu-item" data-category="coffee" data-aos="fade-up" data-aos-delay="150">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=200&h=200&fit=crop" alt="Cold Brew" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Cold Brew</h3>
+                            <p>24-hour steeped cold brew</p>
+                        </div>
+                        <span class="price">$4.50</span>
+                    </div>
+
+                    <!-- Tea Items -->
+                    <div class="menu-item" data-category="tea" data-aos="fade-up">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=200&h=200&fit=crop" alt="Green Tea" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Green Tea</h3>
+                            <p>Organic Japanese green tea</p>
+                        </div>
+                        <span class="price">$3.00</span>
+                    </div>
+                    <div class="menu-item" data-category="tea" data-aos="fade-up" data-aos-delay="50">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=200&h=200&fit=crop" alt="Chai Latte" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Chai Latte</h3>
+                            <p>Spiced Indian chai with steamed milk</p>
+                        </div>
+                        <span class="price">$4.50</span>
+                    </div>
+                    <div class="menu-item" data-category="tea" data-aos="fade-up" data-aos-delay="100">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=200&h=200&fit=crop" alt="Earl Grey" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Earl Grey</h3>
+                            <p>Classic bergamot-infused black tea</p>
+                        </div>
+                        <span class="price">$3.00</span>
+                    </div>
+                    <div class="menu-item" data-category="tea" data-aos="fade-up" data-aos-delay="150">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=200&h=200&fit=crop" alt="Herbal Bliss" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Herbal Bliss</h3>
+                            <p>Caffeine-free herbal blend</p>
+                        </div>
+                        <span class="price">$3.50</span>
+                    </div>
+
+                    <!-- Pastry Items -->
+                    <div class="menu-item" data-category="pastry" data-aos="fade-up">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=200&h=200&fit=crop" alt="Butter Croissant" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Butter Croissant</h3>
+                            <p>Flaky, buttery French croissant</p>
+                        </div>
+                        <span class="price">$3.50</span>
+                    </div>
+                    <div class="menu-item" data-category="pastry" data-aos="fade-up" data-aos-delay="50">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=200&h=200&fit=crop" alt="Blueberry Muffin" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Blueberry Muffin</h3>
+                            <p>Fresh-baked with real blueberries</p>
+                        </div>
+                        <span class="price">$4.00</span>
+                    </div>
+                    <div class="menu-item" data-category="pastry" data-aos="fade-up" data-aos-delay="100">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=200&h=200&fit=crop" alt="Chocolate Brownie" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Chocolate Brownie</h3>
+                            <p>Rich, fudgy chocolate brownie</p>
+                        </div>
+                        <span class="price">$4.50</span>
+                    </div>
+                    <div class="menu-item" data-category="pastry" data-aos="fade-up" data-aos-delay="150">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=200&h=200&fit=crop" alt="Cinnamon Roll" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Cinnamon Roll</h3>
+                            <p>Warm with cream cheese frosting</p>
+                        </div>
+                        <span class="price">$4.00</span>
+                    </div>
+
+                    <!-- Specials -->
+                    <div class="menu-item" data-category="special" data-aos="fade-up">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&h=200&fit=crop" alt="Signature Blend" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Signature Blend</h3>
+                            <p>Our secret house blend</p>
+                        </div>
+                        <span class="price">$6.00</span>
+                    </div>
+                    <div class="menu-item" data-category="special" data-aos="fade-up" data-aos-delay="50">
+                        <div class="menu-item-image">
+                            <img src="https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=200&h=200&fit=crop" alt="Seasonal Special" loading="lazy">
+                        </div>
+                        <div class="menu-item-content">
+                            <h3>Seasonal Special</h3>
+                            <p>Ask about today's seasonal creation</p>
+                        </div>
+                        <span class="price">$6.50</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="gallery" aria-labelledby="gallery-title">
+            <div class="container">
+                <h2 id="gallery-title" class="section-title center">Our <span class="highlight">Space</span></h2>
+                <p class="section-subtitle">A glimpse into our cozy atmosphere</p>
+                
+                <div class="gallery-grid">
+                    <div class="gallery-item item-1" data-aos="fade-up" data-lightbox="gallery">
+                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&h=500&fit=crop" alt="Cozy Interior" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span><i class="fas fa-expand" aria-hidden="true"></i> Cozy Interior</span>
+                        </div>
+                    </div>
+                    <div class="gallery-item item-2" data-aos="fade-up" data-aos-delay="100" data-lightbox="gallery">
+                        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop" alt="Premium Coffee" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span><i class="fas fa-expand" aria-hidden="true"></i> Premium Coffee</span>
+                        </div>
+                    </div>
+                    <div class="gallery-item item-3" data-aos="fade-up" data-aos-delay="200" data-lightbox="gallery">
+                        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=400&h=400&fit=crop" alt="Fresh Pastries" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span><i class="fas fa-expand" aria-hidden="true"></i> Fresh Pastries</span>
+                        </div>
+                    </div>
+                    <div class="gallery-item item-4" data-aos="fade-up" data-aos-delay="300" data-lightbox="gallery">
+                        <img src="https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=400&h=400&fit=crop" alt="Outdoor Seating" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span><i class="fas fa-expand" aria-hidden="true"></i> Outdoor Seating</span>
+                        </div>
+                    </div>
+                    <div class="gallery-item item-5" data-aos="fade-up" data-aos-delay="400" data-lightbox="gallery">
+                        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&h=400&fit=crop" alt="Artisan Baristas" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span><i class="fas fa-expand" aria-hidden="true"></i> Artisan Baristas</span>
+                        </div>
+                    </div>
+                    <div class="gallery-item item-6" data-aos="fade-up" data-aos-delay="500" data-lightbox="gallery">
+                        <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=400&h=400&fit=crop" alt="Community Events" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span><i class="fas fa-expand" aria-hidden="true"></i> Community Events</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials" aria-labelledby="testimonials-title">
+            <div class="container">
+                <h2 id="testimonials-title" class="section-title center">What People <span class="highlight">Say</span></h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="testimonial-stars" aria-label="5 out of 5 stars">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                        </div>
+                        <p class="testimonial-text">"The best coffee I've ever had! The atmosphere is so welcoming, I come here every morning before work."</p>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Sarah M." class="author-avatar" loading="lazy">
+                            <div class="author-info">
+                                <h4>Sarah M.</h4>
+                                <span>Regular Customer</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="testimonial-stars" aria-label="5 out of 5 stars">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                        </div>
+                        <p class="testimonial-text">"Amazing pastries and the staff is incredibly friendly. It's my go-to spot for remote work."</p>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="James K." class="author-avatar" loading="lazy">
+                            <div class="author-info">
+                                <h4>James K.</h4>
+                                <span>Frequent Visitor</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="testimonial-stars" aria-label="5 out of 5 stars">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                        </div>
+                        <p class="testimonial-text">"Perfect place for meetings and dates. The signature blend is absolutely divine!"</p>
+                        <div class="testimonial-author">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Emily R." class="author-avatar" loading="lazy">
+                            <div class="author-info">
+                                <h4>Emily R.</h4>
+                                <span>Coffee Enthusiast</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact" aria-labelledby="contact-title">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info" data-aos="fade-right" data-aos-duration="800">
+                        <h2 id="contact-title" class="section-title">Get In <span class="highlight">Touch</span></h2>
+                        <p>We'd love to hear from you! Visit us or send a message.</p>
+                        
+                        <div class="info-items">
+                            <div class="info-item" data-aos="fade-up" data-aos-delay="100">
+                                <div class="info-icon">
+                                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h4>Address</h4>
+                                    <p>123 Coffee Lane, Brew City, BC 12345</p>
+                                </div>
+                            </div>
+                            <div class="info-item" data-aos="fade-up" data-aos-delay="200">
+                                <div class="info-icon">
+                                    <i class="fas fa-phone" aria-hidden="true"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h4>Phone</h4>
+                                    <p><a href="tel:+15551234567">+1 (555) 123-4567</a></p>
+                                </div>
+                            </div>
+                            <div class="info-item" data-aos="fade-up" data-aos-delay="300">
+                                <div class="info-icon">
+                                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h4>Email</h4>
+                                    <p><a href="mailto:hello@italiccafe.com">hello@italiccafe.com</a></p>
+                                </div>
+                            </div>
+                            <div class="info-item" data-aos="fade-up" data-aos-delay="400">
+                                <div class="info-icon">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                </div>
+                                <div class="info-content">
+                                    <h4>Hours</h4>
+                                    <p>Mon - Fri: 7AM - 9PM<br>Sat - Sun: 8AM - 10PM</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-links" aria-label="Social media links">
+                            <a href="https://facebook.com/italiccafe" class="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://instagram.com/italiccafe" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-instagram" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://twitter.com/italiccafe" class="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        </div>
+
+                        <!-- Google Maps Embed -->
+                        <div class="map-container" data-aos="fade-up" data-aos-delay="500">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215573028975!2d-73.98785312345678!3d40.75889697166789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1234567890!5m2!1sen!2sus"
+                                width="100%" 
+                                height="250" 
+                                style="border:0; border-radius: 12px;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Italic Cafe Location">
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-container" data-aos="fade-left" data-aos-duration="800">
+                        <form class="contact-form" id="contactForm" novalidate>
+                            <h3>Send us a message</h3>
+                            <div class="form-group">
+                                <label for="name">Your Name <span class="required">*</span></label>
+                                <input type="text" id="name" name="name" placeholder="John Doe" required aria-required="true">
+                                <span class="error-message" role="alert"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Your Email <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" placeholder="john@example.com" required aria-required="true">
+                                <span class="error-message" role="alert"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" name="subject" placeholder="How can we help?">
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Your Message <span class="required">*</span></label>
+                                <textarea id="message" name="message" rows="5" placeholder="Tell us what's on your mind..." required aria-required="true"></textarea>
+                                <span class="error-message" role="alert"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full">
+                                <span class="btn-text">Send Message</span>
+                                <span class="btn-loading" aria-hidden="true">
+                                    <i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Sending...
+                                </span>
+                            </button>
+                            <div class="form-status" role="status" aria-live="polite"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Instagram Feed Section -->
+        <section class="instagram-section" aria-labelledby="instagram-title">
+            <div class="container">
+                <h2 id="instagram-title" class="section-title center">Follow Us on <span class="highlight">Instagram</span></h2>
+                <p class="section-subtitle">@italiccafe</p>
+                <div class="instagram-grid">
+                    <a href="https://instagram.com/italiccafe" class="instagram-item" target="_blank" rel="noopener noreferrer" aria-label="Instagram post 1">
+                        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&h=300&fit=crop" alt="Coffee art" loading="lazy">
+                        <div class="instagram-overlay">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </div>
+                    </a>
+                    <a href="https://instagram.com/italiccafe" class="instagram-item" target="_blank" rel="noopener noreferrer" aria-label="Instagram post 2">
+                        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038024a?w=300&h=300&fit=crop" alt="Pastries" loading="lazy">
+                        <div class="instagram-overlay">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </div>
+                    </a>
+                    <a href="https://instagram.com/italiccafe" class="instagram-item" target="_blank" rel="noopener noreferrer" aria-label="Instagram post 3">
+                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=300&h=300&fit=crop" alt="Cafe interior" loading="lazy">
+                        <div class="instagram-overlay">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </div>
+                    </a>
+                    <a href="https://instagram.com/italiccafe" class="instagram-item" target="_blank" rel="noopener noreferrer" aria-label="Instagram post 4">
+                        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&h=300&fit=crop" alt="Latte art" loading="lazy">
+                        <div class="instagram-overlay">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </div>
+                    </a>
+                    <a href="https://instagram.com/italiccafe" class="instagram-item" target="_blank" rel="noopener noreferrer" aria-label="Instagram post 5">
+                        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=300&h=300&fit=crop" alt="Barista at work" loading="lazy">
+                        <div class="instagram-overlay">
+                            <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo" aria-label="Italic Cafe - Home">
+                        <i class="fas fa-mug-hot logo-icon" aria-hidden="true"></i>
+                        <span class="logo-text">Italic Cafe</span>
+                    </a>
+                    <p>Where every cup tells a story. Premium coffee, artisan pastries, and warm hospitality.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter for special offers and updates.</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" aria-label="Email for newsletter" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Italic Cafe. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </button>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-label="Image viewer" aria-hidden="true">
+        <button class="lightbox-close" aria-label="Close lightbox">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+        <button class="lightbox-prev" aria-label="Previous image">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <button class="lightbox-next" aria-label="Next image">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+        </button>
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightbox-img">
+        </div>
+    </div>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- Custom Script -->
+    <script src="script.js"></script>
+</body>
+</html>

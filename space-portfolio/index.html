@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASTRA-7 | Space Explorer Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --primary:#00f0ff;--primary-dim:rgba(0,240,255,.15);
+    --accent:#ff006e;--accent-dim:rgba(255,0,110,.15);
+    --gold:#ffd700;--purple:#a855f7;--green:#00ff88;
+    --bg:#050510;--surface:rgba(10,10,30,.85);
+    --text:#e0e8ff;--text-dim:rgba(224,232,255,.5);
+    --glow:0 0 20px rgba(0,240,255,.4);
+    --radius:12px;
+  }
+  html{scroll-behavior:smooth;overflow-x:hidden}
+  body{
+    font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);
+    line-height:1.6;overflow-x:hidden;
+  }
+  ::selection{background:var(--primary);color:var(--bg)}
+  ::-webkit-scrollbar{width:6px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+
+  /* ── STARS CANVAS ── */
+  #stars-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+  /* ── CURSOR GLOW ── */
+  #cursor-glow{
+    position:fixed;width:300px;height:300px;border-radius:50%;
+    background:radial-gradient(circle,rgba(0,240,255,.07) 0%,transparent 70%);
+    pointer-events:none;z-index:1;transform:translate(-50%,-50%);
+    transition:left .15s,top .15s;
+  }
+
+  /* ── NAV ── */
+  nav{
+    position:fixed;top:0;left:0;width:100%;z-index:100;
+    background:rgba(5,5,16,.8);backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(0,240,255,.1);
+    padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between;
+    transition:transform .3s;
+  }
+  nav.hidden{transform:translateY(-100%)}
+  .nav-logo{
+    font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.3rem;
+    background:linear-gradient(135deg,var(--primary),var(--accent));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    letter-spacing:3px;
+  }
+  .nav-logo span{color:var(--accent);-webkit-text-fill-color:var(--accent)}
+  .nav-links{display:flex;gap:1.8rem;list-style:none}
+  .nav-links a{
+    font-family:'Space Mono',monospace;font-size:.75rem;
+    color:var(--text-dim);text-decoration:none;text-transform:uppercase;
+    letter-spacing:2px;position:relative;transition:color .3s;
+  }
+  .nav-links a:hover,.nav-links a.active{color:var(--primary)}
+  .nav-links a::after{
+    content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;
+    background:var(--primary);transition:width .3s;
+  }
+  .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:101}
+  .hamburger span{width:25px;height:2px;background:var(--primary);transition:.3s}
+  .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+  /* ── SECTION BASE ── */
+  section{position:relative;z-index:2;padding:6rem 2rem}
+  .container{max-width:1200px;margin:0 auto}
+  .section-label{
+    font-family:'Space Mono',monospace;font-size:.7rem;
+    color:var(--accent);letter-spacing:4px;text-transform:uppercase;
+    margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;
+  }
+  .section-label::before{content:'';width:30px;height:1px;background:var(--accent)}
+  .section-title{
+    font-family:'Orbitron',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);
+    font-weight:900;margin-bottom:1rem;
+    background:linear-gradient(135deg,#fff,var(--primary));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .section-desc{color:var(--text-dim);max-width:600px;margin-bottom:3rem;font-size:1.05rem}
+
+  /* ── HERO ── */
+  #hero{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    text-align:center;position:relative;overflow:hidden;
+  }
+  .hero-content{position:relative;z-index:5}
+  .hero-tag{
+    font-family:'Space Mono',monospace;font-size:.75rem;
+    color:var(--primary);letter-spacing:5px;text-transform:uppercase;
+    margin-bottom:1rem;opacity:0;animation:fadeUp .8s .2s forwards;
+  }
+  .hero-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(2.5rem,8vw,5.5rem);font-weight:900;
+    line-height:1.1;margin-bottom:1rem;
+    opacity:0;animation:fadeUp .8s .4s forwards;
+  }
+  .hero-title .line1{color:var(--text)}
+  .hero-title .line2{
+    background:linear-gradient(135deg,var(--primary),var(--accent),var(--purple));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero-sub{
+    font-size:1.2rem;color:var(--text-dim);max-width:550px;margin:0 auto 2rem;
+    opacity:0;animation:fadeUp .8s .6s forwards;
+  }
+  .hero-buttons{
+    display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+    opacity:0;animation:fadeUp .8s .8s forwards;
+  }
+  .btn{
+    font-family:'Space Mono',monospace;font-size:.8rem;letter-spacing:2px;
+    padding:.9rem 2.2rem;border-radius:50px;cursor:pointer;
+    text-decoration:none;text-transform:uppercase;transition:all .3s;
+    display:inline-flex;align-items:center;gap:.5rem;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--primary),#0088ff);
+    color:var(--bg);border:none;font-weight:700;
+    box-shadow:0 0 30px rgba(0,240,255,.3);
+  }
+  .btn-primary:hover{box-shadow:0 0 50px rgba(0,240,255,.5);transform:translateY(-2px)}
+  .btn-outline{
+    background:transparent;color:var(--primary);
+    border:1px solid rgba(0,240,255,.3);
+  }
+  .btn-outline:hover{background:var(--primary-dim);border-color:var(--primary)}
+  .scroll-indicator{
+    position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:.5rem;
+    opacity:0;animation:fadeUp .8s 1.2s forwards;
+  }
+  .scroll-indicator span{
+    font-family:'Space Mono',monospace;font-size:.6rem;
+    color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;
+  }
+  .scroll-arrow{
+    width:20px;height:20px;border-right:2px solid var(--primary);
+    border-bottom:2px solid var(--primary);transform:rotate(45deg);
+    animation:scrollBounce 2s infinite;
+  }
+
+  /* ── 3D PLANET ── */
+  #planet-container{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);z-index:1;
+    perspective:1000px;
+  }
+  .planet-scene{width:320px;height:320px;position:relative;transform-style:preserve-3d}
+  .planet{
+    width:100%;height:100%;border-radius:50%;position:relative;
+    transform-style:preserve-3d;
+    background:
+      radial-gradient(circle at 30% 30%,rgba(0,240,255,.15),transparent 50%),
+      radial-gradient(circle at 70% 60%,rgba(255,0,110,.1),transparent 50%),
+      radial-gradient(circle at 50% 50%,#0a1628,#050510);
+    box-shadow:
+      inset -30px -30px 80px rgba(0,0,0,.8),
+      inset 10px 10px 40px rgba(0,240,255,.1),
+      0 0 60px rgba(0,240,255,.15),
+      0 0 120px rgba(0,240,255,.05);
+    animation:planetRotate 20s linear infinite;
+  }
+  .planet-ring{
+    position:absolute;top:50%;left:50%;
+    width:420px;height:80px;
+    margin-left:-210px;margin-top:-40px;
+    border:2px solid rgba(0,240,255,.15);
+    border-radius:50%;transform:rotateX(75deg);
+    animation:ringRotate 15s linear infinite;
+  }
+  .planet-ring::after{
+    content:'';position:absolute;top:-10px;left:-10px;right:-10px;bottom:-10px;
+    border:1px solid rgba(255,0,110,.08);border-radius:50%;
+  }
+  .planet-surface{
+    position:absolute;width:100%;height:100%;border-radius:50%;overflow:hidden;
+  }
+  .crater{
+    position:absolute;border-radius:50%;
+    background:radial-gradient(circle,rgba(0,0,0,.4),transparent);
+  }
+  .planet-glow{
+    position:absolute;width:400px;height:400px;top:-40px;left:-40px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(0,240,255,.08),transparent 70%);
+    animation:pulse 4s ease-in-out infinite;
+  }
+  .orbit-dot{
+    position:absolute;width:8px;height:8px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 12px var(--accent);
+    animation:orbitSpin 8s linear infinite;
+  }
+
+  /* ── STATUS BAR ── */
+  .status-bar{
+    position:absolute;top:50%;transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:1.2rem;
+  }
+  .status-bar.left{left:-180px}
+  .status-bar.right{right:-180px}
+  .status-item{
+    font-family:'Space Mono',monospace;font-size:.65rem;
+    color:var(--text-dim);letter-spacing:1px;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  .status-dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--green);box-shadow:0 0 8px var(--green);
+    animation:statusBlink 3s infinite;
+  }
+
+  /* ── ABOUT ── */
+  #about{background:linear-gradient(180deg,transparent,rgba(10,10,30,.5),transparent)}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+  .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem}
+  .stat-card{
+    background:var(--surface);border:1px solid rgba(0,240,255,.1);
+    border-radius:var(--radius);padding:1.5rem;position:relative;overflow:hidden;
+    transition:all .3s;
+  }
+  .stat-card:hover{border-color:var(--primary);transform:translateY(-3px)}
+  .stat-card::before{
+    content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+    background:linear-gradient(90deg,transparent,var(--primary),transparent);
+  }
+  .stat-number{
+    font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:900;
+    color:var(--primary);
+  }
+  .stat-label{font-size:.8rem;color:var(--text-dim);margin-top:.3rem}
+  .about-text p{color:var(--text-dim);margin-bottom:1rem;line-height:1.8}
+  .about-text .highlight{color:var(--primary);font-weight:600}
+
+  /* ── SKILLS ── */
+  #skills{background:linear-gradient(180deg,transparent,rgba(0,0,20,.3),transparent)}
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
+  .skill-category{
+    background:var(--surface);border:1px solid rgba(0,240,255,.08);
+    border-radius:var(--radius);padding:2rem;position:relative;overflow:hidden;
+    transition:all .4s;
+  }
+  .skill-category:hover{border-color:var(--primary);transform:translateY(-5px)}
+  .skill-category::after{
+    content:'';position:absolute;top:0;right:0;width:60px;height:60px;
+    background:radial-gradient(circle,var(--primary-dim),transparent);
+    border-radius:0 0 0 60px;
+  }
+  .skill-cat-icon{
+    font-size:2rem;margin-bottom:1rem;display:block;
+  }
+  .skill-cat-title{
+    font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;
+    margin-bottom:1rem;color:#fff;
+  }
+  .skill-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+  .skill-tag{
+    font-family:'Space Mono',monospace;font-size:.65rem;
+    padding:.4rem .8rem;border-radius:20px;
+    background:rgba(0,240,255,.08);color:var(--primary);
+    border:1px solid rgba(0,240,255,.15);
+    transition:all .3s;
+  }
+  .skill-tag:hover{background:rgba(0,240,255,.2);border-color:var(--primary)}
+  .skill-bar-container{margin-top:1.2rem}
+  .skill-bar-label{display:flex;justify-content:space-between;margin-bottom:.4rem}
+  .skill-bar-label span:first-child{font-size:.8rem;color:var(--text-dim)}
+  .skill-bar-label span:last-child{font-family:'Orbitron',sans-serif;font-size:.7rem;color:var(--primary)}
+  .skill-bar{height:4px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
+  .skill-bar-fill{
+    height:100%;border-radius:2px;width:0;
+    background:linear-gradient(90deg,var(--primary),var(--accent));
+    transition:width 1.5s cubic-bezier(.25,.46,.45,.94);
+  }
+
+  /* ── PROJECTS ── */
+  #projects{background:linear-gradient(180deg,transparent,rgba(0,0,20,.3),transparent)}
+  .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem}
+  .project-card{
+    background:var(--surface);border:1px solid rgba(0,240,255,.08);
+    border-radius:var(--radius);overflow:hidden;
+    transition:all .4s;position:relative;
+  }
+  .project-card:hover{border-color:var(--primary);transform:translateY(-8px);box-shadow:var(--glow)}
+  .project-card:hover .project-img{transform:scale(1.05)}
+  .project-img-wrap{
+    height:200px;overflow:hidden;position:relative;
+  }
+  .project-img{
+    width:100%;height:100%;object-fit:cover;
+    transition:transform .6s;
+  }
+  .project-img-placeholder{
+    width:100%;height:100%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:4rem;
+  }
+  .project-overlay{
+    position:absolute;bottom:0;left:0;right:0;
+    background:linear-gradient(transparent,rgba(5,5,16,.9));
+    padding:1.5rem;
+  }
+  .project-tech{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem}
+  .project-tech span{
+    font-family:'Space Mono',monospace;font-size:.6rem;
+    padding:.2rem .6rem;border-radius:10px;
+    background:rgba(0,240,255,.1);color:var(--primary);
+  }
+  .project-body{padding:1.5rem}
+  .project-title{
+    font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:700;
+    margin-bottom:.5rem;
+  }
+  .project-desc{font-size:.9rem;color:var(--text-dim);margin-bottom:1rem;line-height:1.7}
+  .project-links{display:flex;gap:1rem}
+  .project-link{
+    font-family:'Space Mono',monospace;font-size:.7rem;
+    color:var(--primary);text-decoration:none;
+    display:flex;align-items:center;gap:.3rem;
+    transition:color .3s;letter-spacing:1px;
+  }
+  .project-link:hover{color:var(--accent)}
+
+  /* ── TIMELINE ── */
+  #timeline{background:linear-gradient(180deg,transparent,rgba(0,0,20,.3),transparent)}
+  .timeline-wrapper{position:relative;padding-left:3rem}
+  .timeline-line{
+    position:absolute;left:0;top:0;bottom:0;width:2px;
+    background:linear-gradient(180deg,transparent,var(--primary),var(--accent),transparent);
+  }
+  .timeline-item{
+    position:relative;margin-bottom:3rem;
+    padding:2rem;background:var(--surface);
+    border:1px solid rgba(0,240,255,.08);border-radius:var(--radius);
+    transition:all .4s;
+  }
+  .timeline-item:hover{border-color:var(--primary);transform:translateX(5px)}
+  .timeline-item::before{
+    content:'';position:absolute;left:-3rem;top:2rem;
+    width:12px;height:12px;border-radius:50%;
+    background:var(--primary);box-shadow:0 0 12px var(--primary);
+    transform:translateX(-5px);
+  }
+  .timeline-date{
+    font-family:'Space Mono',monospace;font-size:.7rem;
+    color:var(--accent);letter-spacing:2px;margin-bottom:.5rem;
+  }
+  .timeline-title{
+    font-family:'Orbitron',sans-serif;font-size:1.1rem;
+    font-weight:700;margin-bottom:.3rem;
+  }
+  .timeline-company{color:var(--primary);font-size:.9rem;margin-bottom:.5rem}
+  .timeline-desc{color:var(--text-dim);font-size:.9rem;line-height:1.7}
+
+  /* ── CONTACT ── */
+  #contact{background:linear-gradient(180deg,transparent,rgba(0,0,20,.5))}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem}
+  .contact-info{display:flex;flex-direction:column;gap:1.5rem}
+  .contact-item{
+    display:flex;align-items:center;gap:1rem;
+    padding:1.2rem;background:var(--surface);
+    border:1px solid rgba(0,240,255,.08);border-radius:var(--radius);
+    transition:all .3s;
+  }
+  .contact-item:hover{border-color:var(--primary);transform:translateX(5px)}
+  .contact-icon{
+    width:45px;height:45px;border-radius:12px;
+    background:var(--primary-dim);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;flex-shrink:0;
+  }
+  .contact-label{font-size:.75rem;color:var(--text-dim);letter-spacing:1px;font-family:'Space Mono',monospace}
+  .contact-value{font-size:1rem;color:#fff;margin-top:.2rem}
+  .contact-form{display:flex;flex-direction:column;gap:1rem}
+  .form-group{position:relative}
+  .form-group input,.form-group textarea{
+    width:100%;padding:1rem 1.2rem;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(0,240,255,.1);
+    border-radius:var(--radius);color:#fff;
+    font-family:'Rajdhani',sans-serif;font-size:1rem;
+    transition:all .3s;outline:none;
+  }
+  .form-group input:focus,.form-group textarea:focus{
+    border-color:var(--primary);box-shadow:0 0 20px rgba(0,240,255,.1);
+  }
+  .form-group input::placeholder,.form-group textarea::placeholder{color:var(--text-dim)}
+  .form-group textarea{resize:vertical;min-height:120px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .social-links{display:flex;gap:1rem;margin-top:1rem}
+  .social-link{
+    width:45px;height:45px;border-radius:12px;
+    background:var(--surface);border:1px solid rgba(0,240,255,.1);
+    display:flex;align-items:center;justify-content:center;
+    text-decoration:none;font-size:1.1rem;
+    transition:all .3s;
+  }
+  .social-link:hover{border-color:var(--primary);background:var(--primary-dim);transform:translateY(-3px)}
+
+  /* ── FOOTER ── */
+  footer{
+    text-align:center;padding:3rem 2rem;
+    border-top:1px solid rgba(0,240,255,.08);
+    font-family:'Space Mono',monospace;font-size:.7rem;
+    color:var(--text-dim);letter-spacing:2px;
+  }
+  footer .heart{color:var(--accent)}
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes planetRotate{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+  @keyframes ringRotate{from{transform:rotateX(75deg) rotateZ(0)}to{transform:rotateX(75deg) rotateZ(360deg)}}
+  @keyframes pulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+  @keyframes scrollBounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(8px)}}
+  @keyframes statusBlink{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+  @keyframes orbitSpin{from{transform:rotate(0) translateX(170px) rotate(0)}to{transform:rotate(360deg) translateX(170px) rotate(-360deg)}}
+
+  .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.25,.46,.45,.94)}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* ── MOBILE ── */
+  @media(max-width:900px){
+    .about-grid,.contact-grid{grid-template-columns:1fr}
+    .projects-grid{grid-template-columns:1fr}
+    .status-bar{display:none}
+    .hero-title{font-size:clamp(2rem,7vw,4rem)}
+    .planet-scene{width:220px;height:220px}
+    .planet-ring{width:300px;height:60px;margin-left:-150px;margin-top:-30px}
+    section{padding:4rem 1.5rem}
+  }
+  @media(max-width:768px){
+    .nav-links{
+      position:fixed;top:0;right:0;width:260px;height:100vh;
+      background:rgba(5,5,16,.98);backdrop-filter:blur(20px);
+      flex-direction:column;padding:5rem 2rem 2rem;
+      transform:translateX(100%);transition:transform .3s;
+      border-left:1px solid rgba(0,240,255,.1);
+    }
+    .nav-links.open{transform:translateX(0)}
+    .hamburger{display:flex}
+    .about-stats{grid-template-columns:1fr 1fr}
+    .form-row{grid-template-columns:1fr}
+    .hero-buttons{flex-direction:column;align-items:center}
+    #planet-container{transform:translate(-50%,-40%)}
+    .skills-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:480px){
+    .about-stats{grid-template-columns:1fr}
+    .hero-title{font-size:2rem}
+    nav{padding:.8rem 1rem}
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor-glow"></div>
+<canvas id="stars-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">ASTRA<span>-7</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero" class="active">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <p class="hero-tag">// INITIALIZING SEQUENCE...</p>
+    <h1 class="hero-title">
+      <span class="line1">EXPLORING THE</span><br>
+      <span class="line2">DIGITAL COSMOS</span>
+    </h1>
+    <p class="hero-sub">Full-Stack Engineer & Space Enthusiast building next-generation systems that push beyond the frontier of what's possible.</p>
+    <div class="hero-buttons">
+      <a href="#projects" class="btn btn-primary">&#9654; VIEW MISSIONS</a>
+      <a href="#contact" class="btn btn-outline">&#9998; ESTABLISH LINK</a>
+    </div>
+  </div>
+
+  <div id="planet-container">
+    <div class="planet-scene">
+      <div class="planet">
+        <div class="planet-surface">
+          <div class="crater" style="width:40px;height:40px;top:20%;left:25%"></div>
+          <div class="crater" style="width:25px;height:25px;top:50%;left:60%"></div>
+          <div class="crater" style="width:35px;height:35px;top:65%;left:30%"></div>
+          <div class="crater" style="width:18px;height:18px;top:35%;left:70%"></div>
+          <div class="crater" style="width:50px;height:50px;top:40%;left:15%"></div>
+        </div>
+        <div class="planet-glow"></div>
+      </div>
+      <div class="planet-ring"></div>
+      <div class="orbit-dot"></div>
+    </div>
+  </div>
+
+  <div class="status-bar left">
+    <div class="status-item"><div class="status-dot"></div>SYSTEMS ONLINE</div>
+    <div class="status-item">LAT 40.7128</div>
+    <div class="status-item">LONG -74.0060</div>
+    <div class="status-item">ALT 408 KM</div>
+  </div>
+  <div class="status-bar right">
+    <div class="status-item">ORBIT: STABLE</div>
+    <div class="status-item">VEL 7.66 KM/S</div>
+    <div class="status-item">UPTIME: 99.97%</div>
+    <div class="status-item"><div class="status-dot"></div>AI CORE ACTIVE</div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">// MISSION BRIEFING</div>
+      <h2 class="section-title">About the Explorer</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm <span class="highlight">Astra-7</span>, a full-stack engineer navigating the digital universe with 8+ years of experience in building scalable, high-performance systems.</p>
+        <p>From launching microservices at <span class="highlight">warp speed</span> to crafting user interfaces that feel like stepping into another dimension, I push the boundaries of web technology every day.</p>
+        <p>My mission: build software that is <span class="highlight">reliable, beautiful, and impactful</span> — systems that can withstand the harsh conditions of the modern web.</p>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-number" data-target="50">0</div>
+            <div class="stat-label">Projects Deployed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="120">0</div>
+            <div class="stat-label">Commits This Year</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="99">0</div>
+            <div class="stat-label">System Uptime %</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" data-target="8">0</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;align-items:center" class="reveal">
+        <div style="position:relative;width:300px;height:300px">
+          <div style="position:absolute;inset:0;border:2px solid rgba(0,240,255,.2);border-radius:50%;animation:ringRotate 10s linear infinite"></div>
+          <div style="position:absolute;inset:20px;border:1px solid rgba(255,0,110,.15);border-radius:50%;animation:ringRotate 15s linear infinite reverse"></div>
+          <div style="position:absolute;inset:40px;border:1px solid rgba(168,85,247,.15);border-radius:50%;animation:ringRotate 20s linear infinite"></div>
+          <div style="position:absolute;inset:60px;background:radial-gradient(circle,rgba(0,240,255,.1),var(--surface));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:5rem;animation:float 6s ease-in-out infinite">🚀</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">// CAPABILITY MATRIX</div>
+      <h2 class="section-title">Skills & Arsenal</h2>
+      <p class="section-desc">The tools and technologies powering my interstellar missions across the full development spectrum.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-category reveal">
+        <span class="skill-cat-icon">⚛️</span>
+        <h3 class="skill-cat-title">Frontend Engineering</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">React</span><span class="skill-tag">Next.js</span>
+          <span class="skill-tag">TypeScript</span><span class="skill-tag">Vue.js</span>
+          <span class="skill-tag">Three.js</span><span class="skill-tag">GSAP</span>
+          <span class="skill-tag">Tailwind CSS</span><span class="skill-tag">WebGL</span>
+        </div>
+        <div class="skill-bar-container">
+          <div class="skill-bar-label"><span>Expertise</span><span>95%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <span class="skill-cat-icon">🔧</span>
+        <h3 class="skill-cat-title">Backend Systems</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Node.js</span><span class="skill-tag">Python</span>
+          <span class="skill-tag">Go</span><span class="skill-tag">Rust</span>
+          <span class="skill-tag">GraphQL</span><span class="skill-tag">REST</span>
+          <span class="skill-tag">gRPC</span><span class="skill-tag">WebSockets</span>
+        </div>
+        <div class="skill-bar-container">
+          <div class="skill-bar-label"><span>Expertise</span><span>90%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <span class="skill-cat-icon">☁️</span>
+        <h3 class="skill-cat-title">Cloud & DevOps</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS</span><span class="skill-tag">GCP</span>
+          <span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span>
+          <span class="skill-tag">Terraform</span><span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">Linux</span><span class="skill-tag">Nginx</span>
+        </div>
+        <div class="skill-bar-container">
+          <div class="skill-bar-label"><span>Expertise</span><span>88%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <span class="skill-cat-icon">🗄️</span>
+        <h3 class="skill-cat-title">Data & ML</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span><span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">Redis</span><span class="skill-tag">TensorFlow</span>
+          <span class="skill-tag">PyTorch</span><span class="skill-tag">Pandas</span>
+          <span class="skill-tag">Neo4j</span><span class="skill-tag">Elasticsearch</span>
+        </div>
+        <div class="skill-bar-container">
+          <div class="skill-bar-label"><span>Expertise</span><span>82%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="82"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">// MISSION LOG</div>
+      <h2 class="section-title">Deployed Projects</h2>
+      <p class="section-desc">A selection of missions I've completed across the digital galaxy.</p>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <div class="project-img-placeholder" style="background:linear-gradient(135deg,#0a1628,#1a0a2e,#0a1628)">🌌</div>
+        </div>
+        <div class="project-body">
+          <div class="project-tech"><span>React</span><span>Three.js</span><span>WebGL</span><span>Node.js</span></div>
+          <h3 class="project-title">NEBULA DASHBOARD</h3>
+          <p class="project-desc">Real-time 3D data visualization platform for monitoring satellite constellations with WebGL-rendered orbital paths.</p>
+          <div class="project-links">
+            <a href="#" class="project-link">► Live Demo</a>
+            <a href="#" class="project-link">⟨/⟩ Source</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <div class="project-img-placeholder" style="background:linear-gradient(135deg,#0a2818,#0a1628,#0a2818)">🤖</div>
+        </div>
+        <div class="project-body">
+          <div class="project-tech"><span>Python</span><span>TensorFlow</span><span>FastAPI</span><span>Docker</span></div>
+          <h3 class="project-title">VOID AI ENGINE</h3>
+          <p class="project-desc">Autonomous decision-making engine powered by reinforcement learning, deployed across 12 production environments.</p>
+          <div class="project-links">
+            <a href="#" class="project-link">► Live Demo</a>
+            <a href="#" class="project-link">⟨/⟩ Source</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <div class="project-img-placeholder" style="background:linear-gradient(135deg,#280a1a,#0a1628,#280a1a)">🔗</div>
+        </div>
+        <div class="project-body">
+          <div class="project-tech"><span>Rust</span><span>WebAssembly</span><span>React</span><span>PostgreSQL</span></div>
+          <h3 class="project-title">QUANTUM CHAIN</h3>
+          <p class="project-desc">High-performance distributed ledger with sub-millisecond finality, processing 50K transactions per second.</p>
+          <div class="project-links">
+            <a href="#" class="project-link">► Live Demo</a>
+            <a href="#" class="project-link">⟨/⟩ Source</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <div class="project-img-placeholder" style="background:linear-gradient(135deg,#0a1628,#1a1a3e,#0a1628)">📡</div>
+        </div>
+        <div class="project-body">
+          <div class="project-tech"><span>Go</span><span>gRPC</span><span>Kubernetes</span><span>Redis</span></div>
+          <h3 class="project-title">STELLAR MESH</h3>
+          <p class="project-desc">Service mesh framework for microservices with automatic failover, circuit breaking, and observability built in.</p>
+          <div class="project-links">
+            <a href="#" class="project-link">► Live Demo</a>
+            <a href="#" class="project-link">⟨/⟩ Source</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <div class="project-img-placeholder" style="background:linear-gradient(135deg,#0a2818,#1a0a2e,#0a2818)">🎮</div>
+        </div>
+        <div class="project-body">
+          <div class="project-tech"><span>Unity</span><span>C#</span><span>Mirror</span><span>AWS</span></div>
+          <h3 class="project-title">COSMOS ARENA</h3>
+          <p class="project-desc">Multiplayer space combat game supporting 64 players with deterministic physics and zero-latency input prediction.</p>
+          <div class="project-links">
+            <a href="#" class="project-link">► Play Now</a>
+            <a href="#" class="project-link">⟨/⟩ Source</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-img-wrap">
+          <div class="project-img-placeholder" style="background:linear-gradient(135deg,#280a1a,#1a1a3e,#280a1a)">📊</div>
+        </div>
+        <div class="project-body">
+          <div class="project-tech"><span>Next.js</span><span>D3.js</span><span>GraphQL</span><span>Vercel</span></div>
+          <h3 class="project-title">ORBIT ANALYTICS</h3>
+          <p class="project-desc">Full-stack analytics suite with real-time dashboards, custom report builder, and AI-powered anomaly detection.</p>
+          <div class="project-links">
+            <a href="#" class="project-link">► Live Demo</a>
+            <a href="#" class="project-link">⟨/⟩ Source</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">// FLIGHT LOG</div>
+      <h2 class="section-title">Mission Timeline</h2>
+      <p class="section-desc">A chronological record of my journey through the tech cosmos.</p>
+    </div>
+    <div class="timeline-wrapper">
+      <div class="timeline-line"></div>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2024 — PRESENT</div>
+        <h3 class="timeline-title">Lead Systems Architect</h3>
+        <div class="timeline-company">SpaceX Digital Division</div>
+        <p class="timeline-desc">Architecting mission-critical flight software systems. Leading a team of 15 engineers to build real-time telemetry dashboards and autonomous landing systems.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2022 — 2024</div>
+        <h3 class="timeline-title">Senior Full-Stack Engineer</h3>
+        <div class="timeline-company">Neuralink Technologies</div>
+        <p class="timeline-desc">Built and scaled the core platform handling 10M+ daily active users. Implemented real-time data pipelines and machine learning inference at the edge.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2020 — 2022</div>
+        <h3 class="timeline-title">Software Engineer II</h3>
+        <div class="timeline-company">AstroForge Labs</div>
+        <p class="timeline-desc">Developed distributed systems for asteroid mining simulations. Created a novel consensus algorithm reducing latency by 40% across the fleet.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2018 — 2020</div>
+        <h3 class="timeline-title">Frontend Lead</h3>
+        <div class="timeline-company">Orbital Systems Inc.</div>
+        <p class="timeline-desc">Led the frontend architecture for the company's flagship SaaS platform. Migrated from legacy jQuery to React, improving performance by 300%.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-date">2016 — 2018</div>
+        <h3 class="timeline-title">Junior Developer</h3>
+        <div class="timeline-company">Starlink Digital</div>
+        <p class="timeline-desc">Started the journey building responsive web applications and learning the fundamentals of scalable architecture in a fast-paced startup environment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">// ESTABLISH LINK</div>
+      <h2 class="section-title">Open Communication Channel</h2>
+      <p class="section-desc">Ready to collaborate on something extraordinary? Send a transmission.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">📡</div>
+            <div>
+              <div class="contact-label">TRANSMISSION</div>
+              <div class="contact-value">hello@astra7.dev</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-label">COORDINATES</div>
+              <div class="contact-value">New York, NY — Orbit 408km</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🕐</div>
+            <div>
+              <div class="contact-label">TIME ZONE</div>
+              <div class="contact-value">UTC-5 (EST)</div>
+            </div>
+          </div>
+          <div class="social-links">
+            <a href="#" class="social-link" title="GitHub">⟨/⟩</a>
+            <a href="#" class="social-link" title="LinkedIn">in</a>
+            <a href="#" class="social-link" title="Twitter">𝕏</a>
+            <a href="#" class="social-link" title="Discord">💬</a>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <input type="text" placeholder="Your Callsign" required>
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Frequency (Email)" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Subject">
+          </div>
+          <div class="form-group">
+            <textarea placeholder="Your Message to Mission Control..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="border:none;align-self:flex-start">▶ TRANSMIT MESSAGE</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 ASTRA-7 PORTFOLIO — BUILT WITH <span class="heart">♥</span> AND LOTS OF COFFEE</p>
+  <p style="margin-top:.5rem;color:rgba(0,240,255,.3)">ALL SYSTEMS NOMINAL — SIGNAL STRENGTH: EXCELLENT</p>
+</footer>
+
+<script>
+// ── STARS ──
+(function(){
+  const c=document.getElementById('stars-canvas'),ctx=c.getContext('2d');
+  let w,h,stars=[];
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+  function createStars(){
+    stars=[];
+    const n=Math.floor(w*h/1200);
+    for(let i=0;i<n;i++){
+      stars.push({
+        x:Math.random()*w,y:Math.random()*h,
+        r:Math.random()*1.5+.3,
+        a:Math.random(),da:Math.random()*.02-.01,
+        speed:Math.random()*.15+.05,
+        hue:Math.random()>.85?190:Math.random()>.7?280:0
+      });
+    }
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    stars.forEach(s=>{
+      s.a+=s.da;
+      if(s.a>1||s.a<.2)s.da*=-1;
+      s.y+=s.speed;
+      if(s.y>h){s.y=0;s.x=Math.random()*w}
+      const alpha=s.a;
+      if(s.hue===0){
+        ctx.fillStyle=`rgba(255,255,255,${alpha})`;
+      }else{
+        ctx.fillStyle=`hsla(${s.hue},80%,70%,${alpha})`;
+      }
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  resize();createStars();draw();
+  addEventListener('resize',()=>{resize();createStars()});
+})();
+
+// ── CURSOR GLOW ──
+const glow=document.getElementById('cursor-glow');
+document.addEventListener('mousemove',e=>{
+  glow.style.left=e.clientX+'px';
+  glow.style.top=e.clientY+'px';
+});
+
+// ── NAV ──
+let lastScroll=0;
+const navbar=document.getElementById('navbar');
+addEventListener('scroll',()=>{
+  const st=scrollY;
+  navbar.classList.toggle('hidden',st>lastScroll&&st>100);
+  lastScroll=st;
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    const sec=document.querySelector(a.getAttribute('href'));
+    if(sec){
+      const top=sec.offsetTop-150,bot=top+sec.offsetHeight;
+      a.classList.toggle('active',st>=top&&st<bot);
+    }
+  });
+});
+
+function toggleNav(){
+  const nl=document.getElementById('navLinks');
+  const hb=document.getElementById('hamburger');
+  nl.classList.toggle('open');
+  hb.classList.toggle('open');
+}
+document.querySelectorAll('.nav-links a').forEach(a=>
+  a.addEventListener('click',()=>{
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  })
+);
+
+// ── REVEAL ON SCROLL ──
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealBars()}});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ── COUNTER ANIMATION ──
+const numObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.stat-number').forEach(el=>{
+        const target=+el.dataset.target;
+        const suffix=target===99?'%':target===8?'+':'+';
+        let current=0;
+        const inc=target/60;
+        const timer=setInterval(()=>{
+          current+=inc;
+          if(current>=target){current=target;clearInterval(timer)}
+          el.textContent=Math.floor(current)+suffix;
+        },25);
+      });
+      numObs.unobserve(e.target);
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.about-stats').forEach(el=>numObs.observe(el));
+
+// ── SKILL BARS ──
+function revealBars(){
+  document.querySelectorAll('.skill-bar-fill').forEach(bar=>{
+    const w=bar.dataset.width;
+    if(bar.getBoundingClientRect().top<innerHeight*.9){
+      bar.style.width=w+'%';
+    }
+  });
+}
+revealBars();
+
+// ── FORM ──
+function handleSubmit(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('button');
+  const orig=btn.innerHTML;
+  btn.innerHTML='✓ TRANSMITTED';
+  btn.style.background='linear-gradient(135deg,#00ff88,#00cc66)';
+  setTimeout(()=>{btn.innerHTML=orig;btn.style.background='';e.target.reset()},2500);
+}
+
+// ── PLANET PARALLAX ──
+document.addEventListener('mousemove',e=>{
+  const x=(e.clientX/innerWidth-.5)*20;
+  const y=(e.clientY/innerHeight-.5)*20;
+  const planet=document.querySelector('.planet-scene');
+  if(planet)planet.style.transform=`translate(${x}px,${y}px)`;
+});
+</script>
+</body>
+</html>
